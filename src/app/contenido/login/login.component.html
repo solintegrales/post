@@ -1,0 +1,18 @@
+<div class="text-center" id="iniciologin">
+    <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <img class="mb-4" src="../../../assets/img/logo.png" alt="" width="300">
+        <h1 class="h3 mb-3 font-weight-normal">INGRESAR AL SISTEMA</h1>
+
+        <input type="email" class="form-control" placeholder="Email" formControlName="email" [class.is-invalid]="emailNoValido" autofocus>
+        <small class="alert-danger" *ngIf="emailNoValido">Ingrese un email válido</small>
+
+        <input type="password" class="form-control" placeholder="Password" formControlName="password" [class.is-invalid]="passwordNoValido">
+        <small class="alert-danger" *ngIf="passwordNoValido">La contraseña debe ser de 8 caracteres mínimo.</small>
+
+        <input type="submit" name="boton" value="ENTRAR" class="btn btn-lg btn-success btn-block">
+
+
+        <p class="mt-5 mb-3 " style="color:#28a745;">
+            Desarrollado por ITSSOLUCIONES - 2021</p>
+    </form>
+</div>

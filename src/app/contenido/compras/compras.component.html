@@ -1,0 +1,212 @@
+<div class="wrapper">
+    <app-superior></app-superior>
+    <app-menu></app-menu>
+    <!-- --------------contenido -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">COMPRAS</h1>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a [routerLink]="['/principal']">Inicio</a></li>
+                            <li class="breadcrumb-item active">Compras</li>
+                        </ol>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- contenido de categorias -->
+                <!-- ------------------BOTONES---------------------- -->
+                <div class="row">
+                    <!-- <div class="col-lg-1"></div> -->
+                    <div class="col-lg-2 pt-1">
+                        <input type="button" name="boton" id="boton" value="AGREGAR COMPRA" class="btn btn-sm btn-block" [routerLink]="['/comprains']" >
+                        
+                    </div>
+                    <div class="col-lg-6 pt-1"></div>
+                    <div class="col-lg-4 pt-1">
+                        <form [formGroup]='bcomprasForm' (ngSubmit)="buscarc(bcomprasForm.value)">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" formControlName='buscar' placeholder="Buscar" (keyup)="buscarc(bcomprasForm.value)">
+                            
+                            <span class="input-group-append">
+                              <!-- <input type="submit" value="Buscar" class="btn btn-info btn-flat"> -->
+                              <button type="button" class="btn btn-info btn-flat"></button>
+                            </span>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <br>
+
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>No. Factura</th>
+                            <th>Proveedor</th>
+                            <th>Vendedor</th>
+                            <th>Forma de pago</th>
+                            <th>Neto</th>
+                            <th>Total</th>
+                            <th>Anulado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of compras">
+                            
+                            <td>{{item.fecha | date}}</td>
+                            <td>{{item.numeroc}}</td>
+                            <td>{{item.proveedor}}</td>
+                            <td>{{item.vendedor}}</td>
+                            <td>{{item.fpago}}</td>
+                            <td>{{item.neto}}</td>
+                            <td>{{item.total}}</td>
+                            <td>{{item.anulacion}}</td>
+                            <td>
+                                
+                                <img src="assets/img/ver.png" width="25" title="Ver Compra" style="cursor: pointer;" data-toggle="modal" data-target="#mcompra" (click)="mcompra(item.numeroc)">
+
+                                <img src="assets/img/impresora.png" width="25" title="Imprimir Factura" style="cursor: pointer;" (click)="editarcompra(item)"> 
+                                
+                                <img src="assets/img/anular.png" width="20" title="Anular Venta" style="cursor: pointer;" data-toggle="modal" data-target="#anucompra" (click)="asiganular(item)">
+
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <app-footer></app-footer>
+</div>
+<!-- -----------------------Modal mostrar venta -->
+<div class="modal fade" id="mcompra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">COMPRA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- ------------CONTENIDO -->
+                <div *ngFor="let item of vercompra">
+                <div class="row">
+                    <div class="col-lg-3"><b>Fecha:</b></div>
+                    <div class="col-lg-3">{{item.fecha}}</div>
+                    <div class="col-lg-3"><b>No. factura:</b></div>
+                    <div class="col-lg-3">{{item.numeroc}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3"><b>Proveedor:</b></div>
+                    <div class="col-lg-9">{{item.proveedor}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3"><b>Vendedor:</b></div>
+                    <div class="col-lg-9">{{item.vendedor}}</div>
+                </div>
+                <hr>
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cant</th>
+                            <th>V. unit</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pro of item.productos">
+                            
+                            <td>{{pro.nombre}}</td>
+                            <td>{{pro.cantidad}}</td>
+                            <td>{{pro.precioc | currency:""}}</td>
+                            <td style="text-align: right;">{{pro.subtotal | currency:""}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td><b>V. Neto:</b></td>
+                            <td style="text-align: right;">{{item.neto | currency:""}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td><b>IVA ({{item.impuesto}}%):</b></td>
+                            <td style="text-align: right;">{{item.neto * (item.impuesto/100) | currency:""}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td><b>TOTAL:</b></td>
+                            <td style="text-align: right;">{{item.total | currency:""}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-lg-3"><b>Anulado:</b></div>
+                    <div class="col-lg-9">{{item.anulacion}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12"><b>Motivo:</b></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>{{item.motivo}}</p>
+                    </div>
+                </div>
+                </div>
+                <!-- ------------CONTENIDO -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- -----------------------Modal ANULAR venta -->
+<div class="modal fade" id="anucompra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ANULAR COMPRA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- ------------CONTENIDO -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        
+                        <form [formGroup]='ancompraForm' (ngSubmit)="anular(ancompraForm.value)">
+                            <p>Ingrese el motivo por el cual se anula:</p>
+                            <textarea style="width: 100%;" rows="5" formControlName='motivo' class="form-control" >
+                            </textarea><br>
+                            <!-- <textarea formControlName='motivo' class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea> -->
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" >CANCELAR</button>
+                            <input type="submit" name="boton" value="GUARDAR" class="btn ml-2" id="boton" >
+
+                        </form>
+
+                    </div>
+                </div>
+                <!-- ------------CONTENIDO -->
+            </div>
+        </div>
+    </div>
+</div>

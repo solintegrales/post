@@ -1,0 +1,25 @@
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand" id="arriba">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav" id="cabecera">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item">
+            <b><span id="nuser">Bienvenido: <b>{{nombre | titlecase}}</b></span></b>
+        </li>
+
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto" id="cabecera">
+        <li class="nav-item" style="cursor: pointer;">
+            <a class="nav-link" (click)="logout()" role="button">
+                <i>Cerrar Sesión</i>
+            </a>
+        </li>
+
+
+    </ul>
+</nav>
+<!-- /.navbar -->

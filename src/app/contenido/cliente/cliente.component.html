@@ -1,0 +1,195 @@
+<div class="wrapper">
+    <app-superior></app-superior>
+    <app-menu></app-menu>
+    <!-- --------------contenido -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">CLIENTES</h1>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a [routerLink]="['/principal']">Inicio</a></li>
+                            <li class="breadcrumb-item active">Clientes</li>
+                        </ol>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- contenido de categorias -->
+                <!-- ------------------BOTONES---------------------- -->
+                <div class="row">
+                    <!-- <div class="col-lg-1"></div> -->
+                    <div class="col-lg-2">
+                        <input type="button" name="boton" id="boton" value="AGREGAR CLIENTE" class="btn btn-sm btn-block" data-toggle="modal" data-target="#acliente">
+                    </div>
+                    <div class="col-lg-10"></div>
+                </div>
+                <br>
+
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Identificación</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            <th>F. Nacimiento</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of cliente">
+
+                            <td>{{item.ident}}</td>
+                            <td>{{item.nombre}}</td>
+                            <td>{{item.email}}</td>
+                            <td>{{item.direccion}}</td>
+                            <td>{{item.telefono}}</td>
+                            <td>{{item.fnacimiento}}</td>
+                            <td>
+                                <img src="assets/img/editar.png" width="20" title="Editar" data-toggle="modal" data-target="#edcliente" style="cursor: pointer;" (click)="editarcliente(item)">
+
+                                <img src="assets/img/borrar.png" (click)="borrarRegistro(item.id)" style="cursor: pointer;" width="20" title="Borrar" alt="">
+                            </td>
+                        </tr>
+                        <tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <app-footer></app-footer>
+</div>
+<!-- -----------------------Modal Insertar cliente -->
+<div class="modal fade" id="acliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">AGREGAR CLIENTE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- ------------formulario -->
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <form [formGroup]='clienteForm' (ngSubmit)="guardarcliente(clienteForm.value)">
+                            <input type="text" class="form-control" formControlName='nombre' placeholder="Nombre" [class.is-invalid]="nombreNoValido">
+                            <small *ngIf="nombreNoValido" class="text-danger">Debe ingresar el nombre</small>
+                            <br>
+
+                            <input type="text" class="form-control" formControlName='ident' placeholder="Identificación" [class.is-invalid]="identdNoValido">
+                            <small *ngIf="identdNoValido" class="text-danger">Debe ingresar la identificación</small>
+                            <br>
+
+                            <input type="email" class="form-control" placeholder="Email" formControlName='email' [class.is-invalid]="emailNoValido">
+                            <small *ngIf="emailNoValido" class="text-danger">Debe ingresar un email válido</small>
+                            <br>
+
+                            <input type="text" class="form-control" placeholder="Dirección" formControlName='direccion' [class.is-invalid]="direccionNoValido">
+                            <small *ngIf="direccionNoValido" class="text-danger">Debe ingresar la dirección</small>
+                            <br>
+
+                            <input type="text" class="form-control" placeholder="Teléfono" formControlName='telefono' [class.is-invalid]="telefonodNoValido">
+                            <small *ngIf="telefonodNoValido" class="text-danger">Debe ingresar el teléfono de contacto</small>
+                            <br>
+
+                            <span>Fecha de nacimiento</span>
+                            <input type="date" class="form-control" formControlName='fnacimiento' [class.is-invalid]="fnacimientoNoValido">
+                            <small *ngIf="fnacimientoNoValido" class="text-danger">Debe seleccionar la fecha de nacimiento</small>
+                            <br>
+
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                            <input type="submit" name="boton" value="GUARDAR" class="btn ml-2" id="boton">
+
+                        </form>
+
+                    </div>
+                </div>
+                <!-- ------------formulario -->
+            </div>
+            <div class="modal-footer" style="background-color: #dfdfdf;">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                <button type="button" id="boton" name="boton" onclick="" class="btn btn-primary">
+                	GUARDAR
+                </button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- -----------------------Modal Editar PRODUCTO -->
+<div class="modal fade" id="edcliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">EDITAR CLIENTE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- ------------formulario -->
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <form [formGroup]='edclienteForm' (ngSubmit)="editar(edclienteForm.value)">
+                            <input type="text" class="form-control" formControlName='nombre' placeholder="Nombre" [class.is-invalid]="ednombreNoValido">
+                            <small *ngIf="ednombreNoValido" class="text-danger">Debe ingresar el nombre</small>
+                            <br>
+
+                            <input type="text" class="form-control" formControlName='ident' placeholder="Identificación" [class.is-invalid]="edidentdNoValido">
+                            <small *ngIf="edidentdNoValido" class="text-danger">Debe ingresar la identificación</small>
+                            <br>
+
+                            <input type="email" class="form-control" placeholder="Email" formControlName='email' [class.is-invalid]="edemailNoValido">
+                            <small *ngIf="edemailNoValido" class="text-danger">Debe ingresar un email válido</small>
+                            <br>
+
+                            <input type="text" class="form-control" placeholder="Dirección" formControlName='direccion' [class.is-invalid]="eddireccionNoValido">
+                            <small *ngIf="eddireccionNoValido" class="text-danger">Debe ingresar la dirección</small>
+                            <br>
+
+                            <input type="text" class="form-control" placeholder="Teléfono" formControlName='telefono' [class.is-invalid]="edtelefonodNoValido">
+                            <small *ngIf="edtelefonodNoValido" class="text-danger">Debe ingresar el teléfono de contacto</small>
+                            <br>
+
+                            <span>Fecha de nacimiento</span>
+                            <input type="date" class="form-control" formControlName='fnacimiento' [class.is-invalid]="edfnacimientoNoValido">
+                            <small *ngIf="edfnacimientoNoValido" class="text-danger">Debe seleccionar la fecha de nacimiento</small>
+                            <br>
+
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                            <input type="submit" name="boton" value="GUARDAR" class="btn ml-2" id="boton">
+
+                        </form>
+
+                    </div>
+                </div>
+                <!-- ------------formulario -->
+            </div>
+            <div class="modal-footer" style="background-color: #dfdfdf;">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                <button type="button" id="boton" name="boton" onclick="" class="btn btn-primary">
+                	GUARDAR
+                </button> -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,139 @@
+<div class="wrapper">
+    <app-superior></app-superior>
+    <app-menu></app-menu>
+    <!-- --------------contenido -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">TABLERO PRINCIPAL</h1>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item  active"><a>Inicio</a></li>
+                            <!-- <li class="breadcrumb-item active">Categoría</li> -->
+                        </ol>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <!-- <span *ngFor="let item of productos">
+            hola<br>
+        </span> -->
+
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>${{saldoVentas | number}}</h3>
+                                <p>VENTAS</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-money-check-alt"></i>
+                            </div>
+                            <a [routerLink]="['/venta']" class="small-box-footer">Más Información <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>${{saldoCompras | number}}</h3>
+
+                                <p>COMPRAS</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-money-check-alt"></i>
+                            </div>
+                            <a [routerLink]="['/compra']" class="small-box-footer">Más Información <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3>${{caja | number}}</h3>
+
+                                <p>CAJA</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-cash-register"></i>
+                            </div>
+                            <a [routerLink]="['/caja']" class="small-box-footer">Más Información <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>{{cantProductos}}</h3>
+
+                                <p>PRODUCTOS</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-clipboard"></i>
+                            </div>
+                            <a [routerLink]="['/producto']" class="small-box-footer">Más Información <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- -------------------tablas -->
+        <!-- <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">DataTable with minimal features & hover style</h3>
+            </div>
+        </div> -->
+        <!-- /.card-header -->
+        <!--  <div class="card-body">
+            <hr>
+            <hr>
+            <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Categoria</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of categoria">
+                        <th>{{item.id}}</th>
+                        <td>{{item.nombre}}</td>
+                        <td></td>
+                    </tr>
+                    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ID</th>
+                        <th>Categoria</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div> -->
+        <!-- <input type="text" value="{{sumarventa(item.numerov)}}" *ngFor="let item of ventas"> -->
+
+    </div>
+
+</div>

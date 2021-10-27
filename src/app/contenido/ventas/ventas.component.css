@@ -1,0 +1,20 @@
+#boton {
+    background-color: #36b497;
+    color: white;
+    font-weight: bold;
+}
+#boton:hover {
+    background-color: #2c957d;
+    color: white;
+    font-weight: bold;
+}
+
+.modal-header{
+    background-color: #36b397; 
+    color: white;
+}
+
+.modal-body{
+     background-color: #dfdfdf;
+}
+

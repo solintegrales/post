@@ -1,0 +1,272 @@
+<div class="wrapper">
+    <app-superior></app-superior>
+    <app-menu></app-menu>
+    <!-- --------------contenido -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">INSERTAR NUEVA VENTA</h1>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a [routerLink]="['/principal']">Inicio</a></li>
+                            <li class="breadcrumb-item active">Ventas</li>
+                        </ol>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <hr>
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+
+        <!-- /.content-header -->
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- ------------------BUSCAR LOS PRODUCTOS -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="bproducto">
+                            <div class="row">
+                                <div class="col-lg-6">Ingrese código o Nombre Producto</div>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" placeholder="Código del producto" (change)="buscarpr($event.target.value)"><br>
+                                </div>
+                            </div>
+                            <div *ngIf="preciovp>0">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Producto</th>
+                                        <th>Stock</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{codigop}}</td>
+                                        <td>{{nombrep}}</td>
+                                        <td>{{stockp}}</td>
+                                        <td>{{preciovp | currency:''}}</td>
+                                        <td>
+                                            <input type="number" class="form-control" min="1" *ngIf="preciovp>0" [ngModel]="cantidadp" (ngModelChange)="aumentarcant($event)">
+                                            <!-- {{cantidadp}} -->
+                                        </td>
+                                        <td>
+                                            <button class="btn sm" id="boton" *ngIf="agregar=='Agregar'" (click)="agregarprod()">
+                                                {{agregar}}
+                                            </button>
+                                            <button class="btn sm btn-secondary" *ngIf="agregar=='No hay stock'">
+                                                {{agregar}}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <H3>Relación de la Venta</H3>
+                            </div>
+                            <div class="col-lg-6 mt-2" style="text-align: right; color: #36b497">
+                                <b>Cliente: </b>{{cliente}}
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="row" id="formulario">
+                    <div class="col-lg-12">
+                        <form [formGroup]='ventasForm' (ngSubmit)="guardarventa(ventasForm.value)">
+                            <table style="width: 100%;" border="0">
+                                <tr>
+                                    <!-- <td style="width: 16.6%;">Nombre Vendedor:</td>
+                                    <td style="width: 16.6%;">
+                                        <input type="text" class="form-control" formControlName='vendedor' placeholder="Vendedor" value="Andres" disabled="disabled">
+                                    </td> -->
+                                    <td style="width: 16.6%;"><b>No. Factura: </b> <span style="color:red;" class="ml-3">{{numeros}}</span></td>
+                                    <td>
+                                        <b>Cliente: </b>
+                                    </td>
+                                    <td style="width: 16.6%;">
+                                        <form [formGroup]='bclienForm'>
+                                            <input type="text" class="form-control" formControlName='ident' placeholder="Identificación Cliente" (change)="buscarcliente($event.target.value)">
+                                        </form>
+                                    </td>
+                                    <td style="width: 16.6%;">
+                                        <button id="boton" class="btn btn-sm" data-toggle="modal" data-target="#acliente">Agregar Cliente</button>
+                                    </td>
+                                    <td>Impuesto:</td>
+                                    <td style="width: 16.6%;">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                            <input type="number" [ngModel]="porimpuesto" (ngModelChange)="cambiar($event)" class="form-control" min="0" formControlName='impuesto' value="{{porimpuesto}}" placeholder="Impuesto">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>Forma de Pago:</td>
+                                    <td>
+                                        <select formControlName='fpago' class="form-control">
+                                            <option value="Efectivo" label="Efectivo">Efectivo</option>
+                                            <option value="Tarjeta" label="Tarjeta">Tarjeta</option>
+                                            <option value="Cheque" label="Cheque">Cheque</option>
+                                          </select>
+                                    </td>
+                                    <td colspan="2">
+                                        <b class="ml-1">Total Neto: </b>
+                                        <span class="ml-5">{{neto | currency:''}}</span>
+                                    </td>
+                                    <td colspan="2">
+                                        <b class="ml-1">Total: </b>
+                                        <span class="ml-5">{{total | currency:''}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td colspan="3" style="text-align: center;">
+
+                                        <button type="button" style="width: 50%;" class="btn btn-sm btn-secondary" data-dismiss="modal" [routerLink]="['/venta']">CANCELAR</button>
+                                    </td>
+                                    <td colspan="3" style="text-align: center;">
+                                        <input type="submit" style="width: 50%;" name="boton" value="GUARDAR" class="btn btn-sm ml-2" id="boton">
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" id="formulario">
+                    <div class="col-lg-12">
+                        <div id="listapro" class="mt-2">
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <table class="table table-striped table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Cód</th>
+                                                <th>Nombre</th>
+                                                <th>Cant</th>
+                                                <th>Precio</th>
+                                                <th>Subtotal</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of producto; let cont = index">
+                                                <td>{{(cont+1)}} - {{item.cont}}</td>
+                                                <td>{{item.codigob}}</td>
+                                                <td>{{item.nombre}}</td>
+                                                <td>{{item.cantidad}}</td>
+                                                <td>{{item.preciov | currency:''}}</td>
+                                                <td>{{item.subtotal | currency:''}}</td>
+                                                <td>
+
+                                                    <img src="assets/img/borrar.png" (click)="borrarproducto(item, cont)" style="cursor: pointer;" width="20" title="Borrar" alt="" data-toggle="modal" data-target="#astock">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <app-footer></app-footer>
+</div>
+<!-- -----------------------Modal Insertar CLIENTE -->
+<div class="modal fade" id="acliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">AGREGAR CLIENTE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- ------------formulario -->
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <form [formGroup]='clienteForm' (ngSubmit)="guardarcliente(clienteForm.value)">
+                            <input type="text" class="form-control" formControlName='nombre' placeholder="Nombre"><br>
+
+                            <input type="text" class="form-control" formControlName='ident' placeholder="Identificación"><br>
+
+                            <input type="email" class="form-control" placeholder="Email" formControlName='email'><br>
+
+                            <input type="text" class="form-control" placeholder="Dirección" formControlName='direccion'><br>
+
+                            <input type="text" class="form-control" placeholder="Teléfono" formControlName='telefono'><br>
+
+                            <span>Fecha de nacimiento</span>
+                            <input type="date" class="form-control" formControlName='fnacimiento'><br>
+
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                            <input type="submit" name="boton" value="GUARDAR" class="btn ml-2" id="boton">
+
+                        </form>
+
+                    </div>
+                </div>
+                <!-- ------------formulario -->
+            </div>
+            <div class="modal-footer" style="background-color: #dfdfdf;">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                <button type="button" id="boton" name="boton" onclick="" class="btn btn-primary">
+                	GUARDAR
+                </button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- -----------------------Modal para agregar stock -->
+<div class="modal fade" id="astock" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Producto de Venta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h2>Esta seguro que desea eliminar este producto?</h2>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-6 text-center">
+                            <button class="btn ml-2" id="boton" (click)="eliminarProducto()" data-dismiss="modal">Confirmar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

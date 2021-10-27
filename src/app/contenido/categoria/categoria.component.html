@@ -1,0 +1,154 @@
+<div class="wrapper">
+    <app-superior></app-superior>
+    <app-menu></app-menu>
+    <!-- --------------contenido -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">CATEGORÍAS</h1>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a [routerLink]="['/principal']">Inicio</a></li>
+                            <li class="breadcrumb-item active">Categorías</li>
+                        </ol>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- contenido de categorias -->
+                <!-- ------------------BOTONES---------------------- -->
+                <div class="row">
+                    <!-- <div class="col-lg-1"></div> -->
+                    <div class="col-lg-2 pt-1">
+                        <input type="button" name="boton" id="boton" value="AGREGAR CATEGORÍA" class="btn btn-sm btn-block" data-toggle="modal" data-target="#acategoria">
+                        
+                    </div>
+                    <div class="col-lg-6 pt-1"></div>
+                    <div class="col-lg-4 pt-1">
+                        <form [formGroup]='bcateForm'>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" formControlName='buscar' placeholder="Buscar" (keyup)="buscarc(bcateForm.value)">
+                            
+                            <span class="input-group-append">
+                              <!-- <input type="submit" value="Buscar" class="btn btn-info btn-flat"> -->
+                              <button type="button" class="btn btn-info btn-flat"></button>
+                            </span>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <br>
+
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            
+                            <th>Nombre</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of categoria">
+                            
+                            <td>{{item.nombre}}</td>
+                            <td>
+                                <img src="assets/img/editar.png" width="20" title="Editar" data-toggle="modal" data-target="#edcategoria" style="cursor: pointer;" (click)="editarcate(item)">
+
+                                <img src="assets/img/borrar.png" (click)="borrarRegistro(item.id)" style="cursor: pointer;" width="20" title="Borrar" alt="">
+                            </td>
+                        </tr>
+                        <tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <app-footer></app-footer>
+</div>
+<!-- -----------------------Modal Insertar Categoría -->
+<div class="modal fade" id="acategoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">AGREGAR CATEGORÍA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- ------------formulario -->
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <form method="POST" [formGroup]='cateForm' (ngSubmit)="guardarcate(cateForm.value)">
+                            <input type="text" class="form-control" id="nombrec" formControlName='nombre' placeholder="Nombre" required="required"><br>
+                            <!-- <input type="text" class="form-control" id="nombrec" formControlName='prueba' value="{{pru}}" placeholder="Prueba"><br> -->
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" >CANCELAR</button>
+                            <input type="submit" name="boton" value="GUARDAR" class="btn ml-2" id="boton" >
+
+                        </form>
+
+                    </div>
+                </div>
+                <!-- ------------formulario -->
+            </div>
+            <div class="modal-footer" style="background-color: #dfdfdf;">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                <button type="button" id="boton" name="boton" onclick="" class="btn btn-primary">
+                	GUARDAR
+                </button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- -----------------------Modal Editar Categoría -->
+<div class="modal fade" id="edcategoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">EDITAR CATEGORÍA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- ------------formulario -->
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <form [formGroup]='edcateForm' (ngSubmit)="editar(edcateForm.value)">
+                            <input type="text" class="form-control" id="nombrec" formControlName='nombre' placeholder="Nombre"><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" >CANCELAR</button>
+                            <input type="submit" name="boton" value="GUARDAR" class="btn ml-2" id="boton" >
+
+                        </form>
+
+                    </div>
+                </div>
+                <!-- ------------formulario -->
+            </div>
+            <div class="modal-footer" style="background-color: #dfdfdf;">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                <button type="button" id="boton" name="boton" onclick="" class="btn btn-primary">
+                	GUARDAR
+                </button> -->
+            </div>
+        </div>
+    </div>
+</div>

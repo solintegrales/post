@@ -1,0 +1,21 @@
+{
+  "targets": {
+    "post-84798": {
+      "hosting": {
+        "post": [
+          "post-84798"
+        ]
+      }
+    },
+    "sistemapos-e5835": {
+      "hosting": {
+        "post": [
+          "sistemapos-e5835"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "sistemapos-e5835"
+  }
+}
